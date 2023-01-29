@@ -25,14 +25,14 @@ router.get('/:id',async (req, res) => {
   // be sure to include its associated Products
     //from activity 12 restful routes
       try {
-        const categoryData = await Category.findByPk({
+        const categoryData = await Category.findByPk(req.params.id,{
           include: Product,
       });
-      if (!userData) {
+      if (!categoryData) {
         res.status(404).json({ message: 'No user with this id!' });
         return;
       }
-      res.status(200).json(userData);
+      res.status(200).json(categoryData);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -70,7 +70,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // deletes a category by its `id` value
-  Category.destroy(req.body,{
+  Category.destroy({
     where:{
       id:req.params.id
     },

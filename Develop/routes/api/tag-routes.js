@@ -30,14 +30,16 @@ router.get('/:id', async (req, res) => {
         model: Product,
         attributes: ['id', 'product_name', 'stock','category_id']
       })
-  });
-    // 200 status code means the request is successful
+    });
+    if (!tagData) {
+      res.status(404).json({ message: 'No user with this id!' });
+      return;
+    }
     res.status(200).json(tagData);
   } catch (err) {
-    // 400 status code means the server could not understand the request
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
-});
+  });
 
 router.post('/', (req, res) => {
   // create a new tag
