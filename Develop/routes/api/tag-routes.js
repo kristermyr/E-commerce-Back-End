@@ -25,11 +25,11 @@ router.get('/:id', async (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
   try {
-    const tagData = await Tag.findByPk({
-      include: [ {
+    const tagData = await Tag.findByPk(req.params.id,{
+      include: ({
         model: Product,
         attributes: ['id', 'product_name', 'stock','category_id']
-      }]
+      })
   });
     // 200 status code means the request is successful
     res.status(200).json(tagData);
@@ -70,7 +70,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
-  Tag.destroy(req.body,{
+  Tag.destroy({
     where:{
       id:req.params.id
     },
